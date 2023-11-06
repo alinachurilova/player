@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import {useEffect, useState} from "react";
+import Player from "./components/Player";
+import {playList} from "./components/mocks/playlist";
 
 function App() {
+    const [songs] = useState(playList);
+    const [currentSong, setCurrentSong] = useState(0);
+    const [nextSong, setNextSong] = useState(0);
+
+    useEffect(()=> {
+        setNextSong(()=> {
+            if(currentSong + 1 > songs.length) {
+                return 0;
+            } else {
+                return currentSong +1;
+            }
+        })
+    },[currentSong, songs.length])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+     <Player
+     currentSong = {currentSong}
+     setCurrentSong={setCurrentSong}
+     nextSong={nextSong}
+     songs={songs}
+     />
     </div>
   );
 }
